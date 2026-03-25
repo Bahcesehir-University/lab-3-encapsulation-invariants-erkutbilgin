@@ -26,47 +26,42 @@ using namespace std;
 // --------------------------------------------------
 class Temperature {
 private:
-    double celcius_;
+    double celsius_;
 
 public:
     // Constructor: initialize with a Celsius value.
-    Temperature(int celcius){
-        celcius_ = celcius;
-    }
     // Must enforce the invariant.
-   
     // Throw std::invalid_argument if value < -273.15
-    explicit Temperature(double celcius) {
-         if(celcius < -273.15){
-             throw std::invalid_argument("invalid temperature,too low");
-        }
-        celcius_ = celcius;
+    explicit Temperature(double celsius) {
         // TODO: Validate and set celsius_
+        if (celsius < -273.15){
+            throw invalid_argument("Temperature cannot be below absolute zero.");
+        }
+        celsius_ = celsius;
     }
 
     // Getter: return the temperature in Celsius
     double getCelsius() const {
-        return celcius_;
-        
+        // TODO: Implement
+        return celsius_;
     }
 
     // Getter: return the temperature converted to Fahrenheit
-    // Formula: F = C * 9/5 + 32
+    // Formula:  C * 9/5 + 32
     double getFahrenheit() const {
         // TODO: Implement
-        return celcius_ * 9.0/5.0 + 32.0;
-        
+        return celsius_ * 9.0/5.0 + 32.0 ;
     }
 
     // Setter: update the temperature in Celsius
     // Must enforce the invariant.
     // Throw std::invalid_argument if value < -273.15
-    void setCelsius(double celcius) {
+    void setCelsius(double celsius) {
         // TODO: Implement
-        if(celcius < -273.15){
-            throw std::invalid_argument("invalid temp");
+        if (celsius < -273.15){
+            throw invalid_argument("Temperature cannot be below absolute zero.");
         }
-        celcius_ = celcius;
+        celsius_ = celsius;
     }
 };
 
@@ -84,22 +79,19 @@ private:
 
 public:
     // Constructor: initialize with owner name and starting balance.
-   
-    
     // Throw std::invalid_argument if owner is empty or balance < 0
     BankAccount(const string& owner, double initialBalance) {
-        if(owner.empty()){
-            throw std::invalid_argument("Invalid initialization");
+        // TODO: Validate and set members
+        // owner.empty()
+        if (owner.empty()){
+            throw invalid_argument("Owner name cannot be empty");
         }
-        if(initialBalance <= 0){
-            throw std::invalid_argument("Invalid initialization");
+        if (initialBalance < 0){
+            throw invalid_argument("Initial Balance cannot be negative");
         }
         owner_ = owner;
         balance_ = initialBalance;
-        // TODO: Validate and set members
     }
-    
-    
 
     // Getter: return the owner's name
     string getOwner() const {
@@ -117,11 +109,10 @@ public:
     // Throw std::invalid_argument if amount <= 0
     void deposit(double amount) {
         // TODO: Implement
-        if(amount <= 0){
-            throw std::invalid_argument("Invalid Amount");
+        if (amount <= 0){
+            throw invalid_argument("Deposit amount must be positive");
         }
         balance_ += amount;
-        
     }
 
     // Withdraw money from the account.
@@ -129,13 +120,14 @@ public:
     // Throw std::runtime_error if insufficient funds
     void withdraw(double amount) {
         // TODO: Implement
-        if(amount <= 0){
-            throw std::invalid_argument("Invalid Amount");
+        if (amount <= 0){
+            throw invalid_argument("Withdrawal amount must be positive");
         }
-        if(amount >= balance_){
-            throw std::runtime_error("Insufficient funds");
+        if(amount  > balance_){
+            throw runtime_error("Insufficient funds");
         }
         balance_ -= amount;
+        
     }
 
     // Transfer money from this account to another.
@@ -143,8 +135,8 @@ public:
     // Throw std::runtime_error if insufficient funds
     void transfer(BankAccount& other, double amount) {
         // TODO: Implement using withdraw() and deposit()
-        if(amount <= 0){
-            throw std::invalid_argument("Invalid Amount");
+        if (amount <= 0 ){
+            throw invalid_argument("Transfer amount must be positive");
         }
         withdraw(amount);
         other.deposit(amount);
@@ -165,23 +157,26 @@ private:
     // Helper: check if a string contains at least one digit
     static bool hasDigit(const string& s) {
         // TODO: Implement
-        for(char c: s){
-            if(c >= '0' && c <= '9'){
+        for (char c : s){
+            if (c >= '0' && c <= '9'){
                 return true;
             }
         }
-        
         return false;
     }
 
     // Helper: validate password against all rules
     static void validate(const string& pwd) {
         // TODO: Check length >= 8 and hasDigit
-        if(!(pwd.length() >= 8 && hasDigit(pwd))){
-            throw std::invalid_argument("invalid password");
-        }
-       
         // Throw std::invalid_argument with descriptive message if invalid
+        if (pwd.length() < 8){
+            throw invalid_argument("Password must be at least 8 characters");
+        }
+        if (!hasDigit(pwd)){
+            throw invalid_argument("Password must contain at least one digit");
+        }
+        
+        
     }
 
 public:
@@ -191,7 +186,6 @@ public:
         // TODO: Validate and set password_
         validate(pwd);
         password_ = pwd;
-        
     }
 
     // Change password: old password must match, new must be valid.
@@ -199,8 +193,8 @@ public:
     // Throw std::invalid_argument if newPassword fails validation
     void change(const string& oldPassword, const string& newPassword) {
         // TODO: Implement
-        if(oldPassword != password_){
-            throw std::invalid_argument("Passwords doesn't match");
+        if (oldPassword != password_){
+            throw invalid_argument("Old password does not match");
         }
         validate(newPassword);
         password_ = newPassword;
@@ -288,6 +282,3 @@ int main() {
     cout << "=== Lab Complete ===" << endl;
     return 0;
 }
-
-
-
