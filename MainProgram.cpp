@@ -87,7 +87,7 @@ public:
    
     
     // Throw std::invalid_argument if owner is empty or balance < 0
-    BankAccount(const string& owner, double initialBalance) {
+    explicit BankAccount(const string& owner, double initialBalance) {
         if(owner.empty()){
             throw std::invalid_argument("Invalid initialization");
         }
@@ -288,4 +288,3 @@ int main() {
     cout << "=== Lab Complete ===" << endl;
     return 0;
 }
-
