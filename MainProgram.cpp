@@ -88,7 +88,10 @@ public:
     
     // Throw std::invalid_argument if owner is empty or balance < 0
     BankAccount(const string& owner, double initialBalance) {
-        if(owner.empty() || initialBalance <= 0){
+        if(owner.empty()){
+            throw std::invalid_argument("Invalid initialization");
+        }
+        if(initialBalance <= 0){
             throw std::invalid_argument("Invalid initialization");
         }
         owner_ = owner;
@@ -285,3 +288,4 @@ int main() {
     cout << "=== Lab Complete ===" << endl;
     return 0;
 }
+
