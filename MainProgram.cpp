@@ -91,7 +91,7 @@ public:
         if(owner.empty()){
             throw std::invalid_argument("Invalid initialization");
         }
-        if(initialBalance <= 0){
+        if(initialBalance < 0){
             throw std::invalid_argument("Invalid initialization");
         }
         owner_ = owner;
@@ -288,4 +288,5 @@ int main() {
     cout << "=== Lab Complete ===" << endl;
     return 0;
 }
+
 
